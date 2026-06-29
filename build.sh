@@ -22,7 +22,7 @@ tsc --project web/ts/tsconfig.json
 go generate ./...
 
 # 4. Build the single binary (frontend is embedded via web/embed.go).
-go build -tags netgo -o "$OUTPUT_DIR/go-web-template" .
+go build -trimpath -buildvcs=true -tags netgo -o "$OUTPUT_DIR/go-web-template" .
 
 # 5. Test and lint.
 go test ./...

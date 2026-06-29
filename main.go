@@ -12,6 +12,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"strings"
 	"syscall"
 	"time"
@@ -34,6 +35,7 @@ const databaseName = "app.sqlite"
 const maxRequestBody = 10 << 20 // 10 MiB
 
 func main() {
+	version := flag.Bool("version", false, "print version information and exit")
 	port := flag.Int("port", 8080, "HTTP listen port")
 	addr := flag.String("addr", "127.0.0.1", "bind address")
 	dataDir := flag.String("data", "data", "data directory")
@@ -42,12 +44,47 @@ func main() {
 	basicAuthRealm := flag.String("basic-auth-realm", "go-web-template", "realm for HTTP basic auth")
 	flag.Parse()
 
+	if *version {
+		printVersion()
+		return
+	}
+
 	if *port < 1 || *port > 65535 {
 		log.Fatalf("invalid port: %d", *port)
 	}
 
 	if err := run(*addr, *port, *dataDir, *publicURL, *basicAuthFile, *basicAuthRealm); err != nil {
 		log.Fatalf("%v", err)
+	}
+}
+
+func printVersion() {
+	fmt.Println("Go Web template")
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		return
+	}
+	settings := make(map[string]string, len(info.Settings))
+	for _, s := range info.Settings {
+		settings[s.Key] = s.Value
+	}
+	if vcs, ok := settings["vcs"]; ok {
+		fmt.Printf("%s ", vcs)
+	}
+	modified := settings["vcs.modified"] == "true"
+	if rev, ok := settings["vcs.revision"]; ok {
+		if modified {
+			fmt.Printf("revision: %s (dirty)\n", rev)
+		} else {
+			fmt.Printf("revision: %s\n", rev)
+		}
+	}
+	if t, ok := settings["vcs.time"]; ok {
+		if parsedTime, err := time.Parse(time.RFC3339, t); err == nil {
+			fmt.Printf("updated at: %s\n", parsedTime.Local().Format("2006-01-02 15:04:05"))
+		} else {
+			fmt.Printf("updated at: %s\n", t)
+		}
 	}
 }
 
