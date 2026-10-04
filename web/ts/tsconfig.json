@@ -11,12 +11,12 @@
     "noEmitOnError": true,
     "outDir": "../static",
     "paths": {
-      "preact": ["./vendor/preact/src/index.d.ts"],
-      "preact/hooks": ["./vendor/preact/hooks/src/index.d.ts"],
-      "preact/jsx-runtime": ["./vendor/preact/jsx-runtime/src/index.d.ts"]
+      "preact": ["./third_party/preact/src/index.d.ts"],
+      "preact/hooks": ["./third_party/preact/hooks/src/index.d.ts"],
+      "preact/jsx-runtime": ["./third_party/preact/jsx-runtime/src/index.d.ts"]
     },
     "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
   "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx"],
-  "exclude": ["vendor"]
+  "exclude": ["third_party"]
 }
