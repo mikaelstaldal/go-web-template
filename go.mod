@@ -1,12 +1,12 @@
 module github.com/mikaelstaldal/go-web-template
 
-go 1.26.9
+go 1.26.10
 
 require (
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.2.0
 	github.com/microcosm-cc/bluemonday v1.0.27
-	github.com/mikaelstaldal/go-server-common v1.13.1
+	github.com/mikaelstaldal/go-server-common v1.15.0
 	github.com/ogen-go/ogen v1.22.0
 	github.com/stretchr/testify v1.11.1
 )
