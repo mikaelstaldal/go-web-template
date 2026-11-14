@@ -1,6 +1,6 @@
 module github.com/mikaelstaldal/go-web-template
 
-go 1.26.10
+go 1.26.11
 
 require (
 	github.com/go-faster/errors v0.7.1
